@@ -1,0 +1,27 @@
+{%extends 'blog_app/base.html'%}
+
+{% block body_block %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>BECAUSE ITS <br> <b style="font-family: monospace;">MEDIUM</b></h1>
+            </div>
+            <div class="col-md-4">
+                {% if registerd %}
+                <div class="jumbotron">
+                    <h1>User Registered <a href="{%url 'index'%}">Login Here</a></h1>
+                </div>
+                    {%else%}
+                    <form  class="form-group" action=""  enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                        {{user_form.as_p}}
+                        {{profile_form.as_p}}
+                        <input class="btn btn-primary" type="submit" value="register">
+                    </form>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+   
+{% endblock %}

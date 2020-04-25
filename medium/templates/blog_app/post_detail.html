@@ -1,0 +1,59 @@
+{%extends 'blog_app/base.html'%}
+
+{% block body_block %}
+    <div class="container" id="post_category">
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-8">
+                {% if posts %}
+                {% for post in posts %}
+                <div>
+                    <h4 style="color: #757575;"> {{post.category}}</h4>
+                    <h1 style="margin-top: -4px;">{{post.title}}</h1>
+                    <br>
+                    <h4 style="color: #757575;">Science explains why time is so disorienting and we’re all obsessed with ‘Tiger King’</h4>
+                    <br>
+                    <table>
+                        <tr>
+                            {% if post.author_image%}
+                            <td><img class="img-responsive" src="{{post.author_image.url}}" alt="No image" style="width: 50px; height: 50px; border-radius: 50%;"></td>
+                            {% else %}
+                            {% load staticfiles %}
+                            <td><img class="img-thumbnail" src="{%static 'image/image1.png'%}" alt="No image" style="width: 50px; height: 50px; border-radius: 50%;"></td>
+                            {% endif %}
+                            <td>
+                                <table>
+                                    <tr>
+                                        <ul class="list-inline">
+                                            <li><h4 style="margin-right: 20px; margin-left: 10px;">{{post.author}}</h4></li>
+                                            <li><a href=""><input type="submit" class="btn btn-primary" style="background-color: #FFFFFF; color: #000000; height: 30px; margin-right: 10px;" value="Follow"></a></li>
+                                        </ul>
+
+                                    </tr>
+                                    <tr style="padding-left: 4px;"><td><h5 style="margin-top: -3px; margin-left: 2px;">{{post.date_created}} · 5 min read</h5></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    {% if post.poster %}
+                    <img src="{{post.poster.url}}" alt="" style="width: 90%; height: 400px;">
+                    {% else %}
+                    {% load staticfiles %}
+                    <img src="{%static 'image/image3.jpeg'%}" alt="" style="width: 90%; height: 400px;">
+                    {% endif %}
+                    <br>
+                    <p style="line-height: 1.2;">{{post.content}}</p>
+
+                </div>
+                {%endfor %}
+                {% endif %}
+            </div>
+            <div class="col-md-2">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

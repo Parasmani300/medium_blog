@@ -1,0 +1,105 @@
+{%extends 'blog_app/base.html'%}
+
+{% block body_block %}
+    <div class="container" id="cat_details">
+        <h1 style="color: #000000;">{{topic}}</h1>
+        <h3 style="color: #75757E; margin-top: -4px;">The undercurrents of the future. A Medium publication about tech and science.</h3>
+        <br>
+        <table>
+            <tr>
+                <td><a href=""><input type="submit" class="btn btn-primary" style="background-color: #FFFFFF; color: #000000; width: 75.35px; height: 38px;" value="Follow"></a></td>
+                <td ><p style="margin-top: 8px; margin-left: 8px;"> 1.2k Followers</p></td>
+            </tr>
+        </table>
+        <hr>
+        {% if category_editor_post %}
+        {%for post in category_editor_post %}
+            {% if forloop.counter0|divisibleby:"2"%}
+        <div style="background-color: #6A0BFF;">
+            <div class="row">
+                <div class="col-md-8">
+                    {% if post.poster %}
+                    <img src="{{post.poster.url}}" alt="" style="height: 354px; width: 741.34px;" class="cat_image">
+                    {% else%}
+                    {%load staticfiles %}
+                    <img src="{%static 'image/default_poster.png'%}" alt="" style="height: 354px; width: 741.34px;" class="cat_image">
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <div style="margin-top: 50px;">
+                    <h2 style="color: #FFFFFF;"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;"><b>{{post.title}}</b></a></h2>
+                    <h4 style="color: #FFFFFF;">{{post.content|safe|truncatechars:100}}</h4>
+                    <br>
+                    <h5 style="color: #FFFFFF;">{{post.author}}</h5>
+                    <h6 style="color: #FFFFFF; margin-top: -2px;"> {{post.date_created}}. 4 min read</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        {% else %}
+        <div style="background-color:#FFFFFF;">
+            <div class="row">
+                <div class="col-md-4">
+                    
+                    <div style="margin-top: 50px;">
+                        <h2 style="color: #0A0809;"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;"><b>{{post.title}}</b></a></h2>
+                        <h4 style="color: #0A0809;">{{post.content|safe|truncatechars:100}}</h4>
+                        <br>
+                        <h5 style="color: #0A0809;">{{post.author}}</h5>
+                        <h6 style="color: #0A0809; margin-top: -2px;"> {{post.date_created}} . 4 min read</h6>
+                        </div>
+                </div>
+                <div class="col-md-8">
+                    {% if post.poster %}
+                    <img src="{{post.poster.url}}" alt="" style="height: 354px; width: 100%;" class="cat_image">
+                    {% else%}
+                    {%load staticfiles %}
+                    <img src="{%static 'image/default_poster.png'%}" alt="" style="height: 354px; width: 741.34px;" class="cat_image">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        <!-- <hr> -->
+        <div>
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+
+                <div class="col-md-8">
+                    {% if category_posts %}
+                    {% for post in category_posts %}
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <h4 style="color:#757575">Based on your viewing history</h4> -->
+                            <h3 style="margin-top: -1px;"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;"><b>{{post.title}}</b></a></h3>
+                            <h5 style="color: #757575;">{{post.content|safe|truncatechars:100}}</h5>
+                            <br>
+                            <h5>{{post.author}}</h5>
+                            <h6 style="color:#757575; margin-top: -2px;">{{post.date_created}} . 4 min read</h6>
+                        </div>
+                        <div class="col-md-4">
+                            {% if post.poster %}
+                            <img class="img-responsive" src="{{post.poster.url}}" alt="">
+                            {% else %}
+                            {%load staticfiles%}
+                            <img class="img-responsive" src="{%static 'image/image1.png'%}" alt="">
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

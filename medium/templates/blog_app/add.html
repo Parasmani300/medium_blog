@@ -1,0 +1,43 @@
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top" style="background-color: white;">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li><a class="navbar-brand" href="{%url 'index'%}"><b>Medium</b></a></li>
+                <li class="navbar-link"><a href="{%url 'admin:index'%}">Admin</a></li>
+                <li class="navbar-link"><a href="#">Notification</a></li>
+                <li class="navbar-link"><a href="{%url 'blog_app:category'%}">Create Category</a></li>
+                {%if user.is_authenticated%}
+                    
+                    <li style="margin-left: 400px; margin-top: 4px;">
+                        <div class="dropdown">
+                            <div class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                {%if user.profile.profile_pic %}
+                                <img class="img-thumbnail" src="{{user.profile.profile_pic.url}}" alt="No image" style="width: 35px; height: 35px; border-radius: 50%;">
+                                {%else%}
+                                {%load staticfiles %}
+                                <img class="img-thumbnail" src="{%static 'image/image1.png'%}" alt="No image" style="width: 35px; height: 35px; border-radius: 50%;">
+                                {% endif %}
+                            <!--<span class="caret"></span> --></div>
+                            <ul class="dropdown-menu">
+                            <li><a tabindex="-1" href="#">@{{user.username}}</a></li>
+                            <li><a tabindex="-1" href="#">{{user.first_name}} {{user.last_name}}</a></li>
+                            <li><a tabindex="-1" href="#">{{user.email}}</a></li>
+                            <li><a tabindex="-1" href="#">DOJ: {{user.date_joined}}</a></li>
+                            <li><a tabindex="-1" href="#"><hr></a></li>
+                            <li><a tabindex="-1" href="{%url 'blog_app:add_post'%}">Edit Posts</a></li>
+                            <li><a tabindex="-1" href="#">Bing</a></li>
+                            <li><a tabindex="-1" href="#">Edit Profile</a></li>
+                            <li><a tabindex="-1" href="#">Bing</a></li>
+                            <li><a tabindex="-1" href="{%url 'logout'%}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </li> 
+                <!-- <li style="float: right;"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li> -->
+                {% else %}
+                <li  style="float: right;"><a class="navbar-link" href="{%url 'blog_app:user_login'%}">Login</a></li>
+                <li  style="float: right;"><a class="navbar-link" href="{%url 'blog_app:register'%}">Register</a></li>
+                {% endif %} 
+            </ul>
+        </div>
+    </nav>
+</div>

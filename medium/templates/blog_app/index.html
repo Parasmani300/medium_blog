@@ -1,0 +1,229 @@
+{%extends 'blog_app/base.html'%}
+
+{% block body_block %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="jumbotron" style="background-color: white;">
+                {%if trending_posts %}
+                {%for post in trending_posts %}
+                {%if post.poster %}
+                <img src="{{post.poster.url}}" alt="" style="width: 90%; height: 150px;">
+                {% else %}
+                {%load staticfiles %}
+                <img src="{%static 'image/default_poster.jpeg'%}" alt="" style="width: 90%; height: 150px;">
+                {% endif %}
+                <div class="container">
+                    <h3><b><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.title}}</a></b></h3>
+                    <h5 style="color: #757575;"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.content|safe|truncatechars:100}}</a></h5>
+                    <br>
+                    <h5>{{post.author}} in {{post.organisation}}</h5>
+                    <h6 style="color:#757575; margin-top: -2px;">{{post.date_created}} . 4 min read</h6>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="jumbotron" style="background-color: white;">
+                
+                <table class="table">
+                    {% if new_posts_for_all %}
+                    {%for post in new_posts_for_all %}
+                    <tr>
+                        {%if post.poster %}
+                        <td><img class="img-responsive" src="{{post.poster.url}}" alt=""></td>
+                        {%else%}
+                        <td><img class="img-responsive" src="{%static 'image/image1.png' %}" alt=""></td>
+                        {% endif %}
+                        <td>
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                  <h4 class="card-title"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.title}}</a></h4>
+                                  <h5 class="card-text">{{post.author}} in {{post.organisation}} </h5>
+                                  <small>{{post.date_created}} . 4 min read</small>
+                                </div>
+                              </div>
+                        </td>
+                    </tr> 
+                    {% endfor %}
+                    {% endif %}
+                </table>
+                
+            </div>
+        </div>
+        <!-- Editors Pick -->
+        <div class="col-md-4">
+            {% if editor_choice %}
+            {% for post in editor_choice %}
+            <div class="jumbotron" style="background-color: #FFFFFF;">
+                {%if post.poster%}
+                <img src="{{post.poster.url}}" alt="No image" style="width: 90%; height: 180px;">
+                {% else %}
+                <img src="{%static 'image/default_poster.png'%}" alt="No image" style="width: 90%; height: 180px;">
+                {% endif %}
+                <h3><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.title}}</a></h3>
+                <h5 style="color: #757575;"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.content|safe|truncatechars:40}}</a></h5>
+                <br>
+                <h5>{{post.author}} in {{post.organisation}}</h5>
+                <h6 style="color:#757575; margin-top: -2px;">{{post.date_created}} . 4 min read</h6>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <hr>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="jumbotron" style="background-color: #FFFFFF;">
+                {% if based_on_your_view %}
+                {% for post in based_on_your_view %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 style="color:#757575">Based on your viewing history</h4>
+                            <h3 style="margin-top: -1px;"><b><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.title}}</a></b></h3>
+                            <h5 style="color: #757575;"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.content|safe|truncatechars:40}}</a></h5>
+                            <br>
+                            <h5>{{post.author}} in {{post.organisation}}</h5>
+                            <h6 style="color:#757575; margin-top: -2px;">{{post.date_created}} . 4 min read</h6>
+                        </div>
+                        <div class="col-md-4">
+                            {%if post.poster %}
+                            <img class="img-responsive" src="{{post.poster.url}}" alt="">
+                            {% else %}
+                            {%load staticfiles%}
+                            <img class="img-responsive" src="{%static 'image/image1.png'%}" alt="">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+                <div>
+                    <div class="container-fluid" style="background-color: #D7EFEE;">
+                        <table class="table">
+                            <tr>
+                                <td span="2"><h3>New Frow Your Network</h3></td>
+                                {% load staticfiles %}
+                                <td><img class="img-responsive" src="{%static 'image/image1.png'%}" alt=""></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="jumbotron" style="background-color: #FAFAFA;">
+                        {% if user.is_authenticated %}
+                        {%if new_from_network %}
+                        <table class="table">
+                            {% for post in new_from_network %}
+                            <tr>
+                                {% if post.author_image %}
+                                <td><img class="img-responsive" src="{{post.author_image.url}}" alt=""></td>
+                                {%else%}
+                                <td><img class="img-responsive" src="{%static 'image/image1.png' %}" alt=""></td>
+                                {% endif %}
+                                <td>
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                          <h4 class="card-title"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.title}}</a></h4>
+                                          <h5 class="card-text">{{post.author}} in {{post.organisation}} </h5>
+                                          <small>{{post.date_created}} . 4 min read</small>
+                                        </div>
+                                      </div>
+                                </td>
+                            </tr> 
+                            {% endfor %}
+                        </table>
+                        {% endif %}
+                        {%else%}
+                        <h4>{{new_from_network}}</h4>
+                        {% endif%}
+                    </div>
+
+                </div>
+                
+            <div class="jumbotron" style="background-color: #FFFFFF;">
+                <th><h3>Popular on Medium</h3></th>
+                {% if popular_on_medium %}
+                <table class="table">
+                    {% for post in popular_on_medium %}
+                    <tr>
+                        <td><h2 style="color: #D9D9D9;">0{{forloop.counter}}</h2></td>
+                        <td>
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                  <h4 class="card-title"><a href="{%url 'blog_app:post_details' value=post.id%}" style="color: inherit; text-decoration: none;">{{post.title}}</a></h4>
+                                  <h5 class="card-text">{{post.author}} in Google {{post.organisation}} </h5>
+                                  <small>{{post.date_created}} . 4 min read</small>
+                                </div>
+                              </div>
+                        </td>
+                    </tr> 
+                    {% endfor %}
+                </table>
+                {% endif %}
+                
+            </div>
+
+            <div>
+                <div class="container-fluid" style="background-color: #D7EFEE;">
+                    <table class="table">
+                        <tr>
+                            <td span="2"><h3>Reading List</h3></td>
+                            {% load staticfiles %}
+                            <td><img class="img-responsive" src="{%static 'image/image2.png'%}" alt=""></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="jumbotron" style="background-color: #FAFAFA;">
+                    {% if user.is_authenticated %}
+                    <table class="table">
+                        {% if reading_list %}
+                        {% for post in reading_list %}
+                        <tr>
+                            <td><img class="img-responsive" src="{%static 'image/image1.png' %}" alt=""></td>
+                            <td>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h4 class="card-title"><a href="{%url 'blog_app:post_details' value=post.id%}" style="text-decoration: none; color: inherit;">{{post.title}}</a></h4>
+                                        <h5 class="card-text">{{post.author}} in {{post.organisation}} </h5>
+                                        <small>{{post.date_created}} . 4 min read</small>
+                                    </div>
+                                    </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %} 
+                    </table>
+                    {% else %}
+                        <h4>Login to view this section</h4>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+            <!-- Footer career blog etc -->
+            <div>
+                <ul class="list-inline" style="margin-left: 2px; margin-right: 2px; color: #757575;">
+                    <li>Help </li>
+                    <li>Status </li>
+                    <li>Writer </li>
+                    <li>Blog </li>
+                    <li>Careers </li>
+                    <li>Privacy </li>
+                    <li>Terms </li>
+                    <li>About </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

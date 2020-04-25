@@ -1,0 +1,13 @@
+{%extends 'blog_app/base.html'%}
+
+{% block body_block %}
+
+<div class="container">
+    <form action="" class="form-group" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input class="btn btn-primary" type="submit" value="Post">
+    </form>
+    <h1>{{msg}}</h1>
+</div>
+{% endblock %}

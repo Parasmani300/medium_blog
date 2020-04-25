@@ -1,0 +1,51 @@
+{% extends 'blog_app/base.html'%}
+
+{% block body_block %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <table>
+                <tr>
+                    <td>
+                        {%if user.profile.profile_pic%}
+                        <img src="{{user.profile.profile_pic.url}}" alt="no image" style="border-radius: 50% ; width: 150px; height: 200px;">
+                        {%else%}
+                        {%load staticfiles %}
+                        <img src="{%static 'image/noimage.jpg'%}" alt="" style="border-radius: 50%;">
+                        {%endif%}
+                    </td>
+                    <td>
+                        <table>
+                            <tr ><h4 style="text-decoration: underline;">Username</h4></tr>
+                            <tr>
+                                <h3 style="color: #757575; margin-top: -6px;">{{user.username}}</h3>
+                            </tr>
+                            <tr><h4 style="text-decoration: underline;">Email</h4></tr>
+                            <tr><h3 style="color: #757575; margin-top: -6px;">{{user.email}}</h3></tr>
+
+                            <tr><h4 style="text-decoration: underline;">Full Name</h4></tr>
+                            <tr><h3 style="color: #757575; margin-top: -6px;">{{user.first_name}} {{user.last_name}}</h3></tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td><h3 style="margin-top: 40px;">Organsiation</h3></td></tr>
+                <tr><td><h4 style="margin-top: -6px;color: #757575;">{{user.profile.organisation}}</h4></td></tr>
+                <tr>
+                    <td><button class="btn btn-danger" value="Logout"><a class="active" href="{%url 'logout'%}" style="color: #292929;"><img src="{%static 'image/logout.png'%}" alt=""><x style="margin-left: 2px;">Logout</x></a></button></td>
+                    <td><button class="btn btn-warning" value="Logout"><a class="active" href="{%url 'blog_app:add_post'%}" style="color: #292929; margin-left: 20px;"><img src="{%static 'image/logout.png'%}" alt=""><x style="margin-left: 2px;">Posts</x></a></button></td>
+                </tr>
+            </table>
+            
+          
+        </div>
+        <div class="col-md-6">
+            <form  class="form-group" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{user_form.as_p}}
+                {{profile_form.as_p}}
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
